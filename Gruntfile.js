@@ -93,7 +93,7 @@ module.exports = function(grunt) {
     });
     grunt.registerTask('heroku:', function() {
         grunt.task.run([
-            'connect'
+            'connect:keepalive'
         ]);
     });
 

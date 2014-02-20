@@ -14,11 +14,34 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <style>canvas { width: 100%; height: 100% }</style>
+        <div id="container"></div>
+        <script src="js/vendor/three.js"></script>
+        <script src="js/OrbitControls.js"></script>
+        <script id="fragmentShader" type="x-shader/x-fragment">
+
+            uniform float time;
+            varying vec2 vUv;
+            void main( void ) {
+                vUv = uv;
+
+            }
+        </script>
+        <script id="vertexShader" type="x-shader/x-vertex">
+            uniform float time;
+            varying vec2 vUv;
+
+            void main()
+            {
+                vUv = uv;
+                vec4 mvPosition = modelViewMatrix * vec4( position + sin(time+vUv.x), 1.0 );
+                gl_Position = projectionMatrix * mvPosition;
+            }
+
+        </script>
+        <script src="js/script.js"></script>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <script data-main="js/main" src="js/vendor/require.js"></script>
 
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

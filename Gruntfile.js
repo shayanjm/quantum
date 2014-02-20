@@ -85,6 +85,18 @@ module.exports = function(grunt) {
             'watch'
         ]);
     });
+    grunt.registerTask('heroku', function() {
+        grunt.task.run([
+            'connect:livereload',
+            'watch'
+        ]);
+    });
+    grunt.registerTask('heroku:', function() {
+        grunt.task.run([
+            'connect:livereload',
+            'watch'
+        ]);
+    });
 
     grunt.registerTask('default', ['newer:jsonlint', 'newer:jshint', 'serve']);
 };

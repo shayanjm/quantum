@@ -79,7 +79,7 @@ module.exports = function(grunt) {
         ]);
     });
 
-    grunt.registerTask('heroku:production', function() {
+    grunt.registerTask('heroku:development', function() {
         grunt.task.run([
             'connect:livereload',
             'watch'

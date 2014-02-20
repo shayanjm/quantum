@@ -31,6 +31,11 @@ module.exports = function(grunt) {
                     open: true,
                     base: [ base ]
                 }
+            },
+            keepalive: {
+                options: {
+                    keepalive: true
+                }
             }
         },
         jshint: {

@@ -9,8 +9,8 @@ uniforms.diffuse.value.setHex(0xffffff);
 uniforms.ambient.value.setHex(0xffffff);
 uniforms.specular.value.setHex(0xffffff);
 uniforms.time = { type: 'f', value: 1.0 };
+uniforms.modifier = { type: 'f', value: 0.0};
 uniforms.shininess.value = 250;
-phongShader.uniforms = uniforms;
 
 
 init();
@@ -188,7 +188,7 @@ function init() {
     /*
     * Start PhongShader stuff
     */
-    var material = new THREE.ShaderMaterial({ uniforms: phongShader.uniforms, attributes: {}, fragmentShader: document.getElementById( 'fragmentShader' ).textContent, vertexShader: document.getElementById( 'vertexShader' ).textContent, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
+    var material = new THREE.ShaderMaterial({ uniforms: uniforms, attributes: {}, fragmentShader: document.getElementById( 'fragmentShader' ).textContent, vertexShader: document.getElementById( 'vertexShader' ).textContent, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
 
     /*
     * The Phong Material
@@ -241,6 +241,12 @@ function render() {
     var delta = clock.getDelta();
 
     uniforms.time.value += delta * 5;
+    if (uniforms.modifier.value <= 100.0) {
+        uniforms.modifier.value += delta*6;
+    }
+    else {
+        uniforms.modifier.value = 0;
+    }
     // mesh.rotation.x = uniforms.time.value * 0.08;
     // mesh.rotation.y = uniforms.time.value* 0.07;
     geometry.attributes.position.needsUpdate = true;

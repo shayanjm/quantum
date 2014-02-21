@@ -8,8 +8,10 @@ var uniforms = THREE.UniformsUtils.clone(phongShader.uniforms);
 uniforms.diffuse.value.setHex(0xffffff);
 uniforms.ambient.value.setHex(0xffffff);
 uniforms.specular.value.setHex(0xffffff);
-uniforms.shininess.value = 250;
 uniforms.time = { type: 'f', value: 1.0 };
+uniforms.shininess.value = 250;
+phongShader.uniforms = uniforms;
+
 
 init();
 animate();
@@ -186,7 +188,7 @@ function init() {
     /*
     * Start PhongShader stuff
     */
-    var material = new THREE.ShaderMaterial({ uniforms: uniforms, fragmentShader: phongShader.fragmentShader, vertexShader: phongShader.vertexShader, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
+    var material = new THREE.ShaderMaterial({ uniforms: phongShader.uniforms, attributes: {}, fragmentShader: document.getElementById( 'fragmentShader' ).textContent, vertexShader: document.getElementById( 'vertexShader' ).textContent, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
 
     /*
     * The Phong Material

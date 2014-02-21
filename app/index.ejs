@@ -610,7 +610,7 @@
             #if !defined( USE_SKINNING ) && ! defined( USE_MORPHTARGETS )
             vec3 newPosition = position;
 
-            newPosition.y = ( sin((time/8.0)+pow((position.x/125.5), sin(time/5.0)))+ pow(sin((0.005*time)+(position.y/10.4)), cos(time/15.0)) )*105.5;
+            newPosition.y = ( sin((time/8.0)+pow((position.x/125.5), sin(time/5.0))*cos(time/8.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos(time*position.y/1000.0)*106.0;
             // Normal Sine Wave: newPosition.y = ( sin((time/8.0)+(position.x/125.5)) + sin((0.005*time)+(position.y/10.4)) )*106.0;
             // sin((x^2+3*y^2)*e^(-x^2-y^2)*sin(x^2*4y^2)) + sin(-1/(x^2+y^2))
             mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );

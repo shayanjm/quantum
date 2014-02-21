@@ -74,8 +74,8 @@ function init() {
 
     var color = new THREE.Color();
 
-    var n = 1000, n2 = n/2;  // triangles spread in the cube
-    var d = 6, d2 = d/2;   // individual triangle size
+    var n = 2000, n2 = n/2;  // triangles spread in the cube
+    var d = 4, d2 = d/2;   // individual triangle size
 
     var pA = new THREE.Vector3();
     var pB = new THREE.Vector3();
@@ -241,8 +241,8 @@ function render() {
     var delta = clock.getDelta();
 
     uniforms.time.value += delta * 5;
-    mesh.rotation.x = uniforms.time.value * 0.08;
-    mesh.rotation.y = uniforms.time.value* 0.07;
+    // mesh.rotation.x = uniforms.time.value * 0.08;
+    // mesh.rotation.y = uniforms.time.value* 0.07;
     geometry.attributes.position.needsUpdate = true;
     geometry.computeBoundingSphere();
     renderer.render( scene, camera );

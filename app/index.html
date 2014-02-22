@@ -609,8 +609,10 @@
             #endif
             #if !defined( USE_SKINNING ) && ! defined( USE_MORPHTARGETS )
             vec3 newPosition = position;
-
-            newPosition.y = ( sin((time/8.0)+pow((position.x/125.5), sin(time/5.0))*cos(time/8.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos(time*position.y/1000.0)*106.0;
+            // 3D Fourier series/transform
+            // k[1] * sin((time/(rate+drate[1])) + (position.x/mod[1])) + k[2] * sin((time/(rate+drate[2])) + (position.x/mod[2])) + k[3] * sin((time/(rate+drate[3])) + (position.x/mod[3])) + k[4] * sin((time/(rate+drate[4])) + (position.x/mod[4])) + k[5] * cos((time/(rate+drate[5])) + (position.x/mod[5])) + k[6] * cos((time/(rate+drate[6])) + (position.x/mod[6])) + k[7] * cos((time/(rate+drate[7])) + (position.x/mod[7])) + k[8] * cos((time/(rate+drate[8])) + (position.x/mod[8]))
+            newPosition.y = ( sin((time/15.0)+(position.x/125.5)*cos(time/18.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos(time*position.y/1000.0)*106.0;
+            // newPosition.y = ( sin((time/8.0)+pow((position.x/125.5), sin(time/5.0))*cos(time/8.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos(time*position.y/1000.0)*106.0;
             // Normal Sine Wave: newPosition.y = ( sin((time/8.0)+(position.x/125.5)) + sin((0.005*time)+(position.y/10.4)) )*106.0;
             // sin((x^2+3*y^2)*e^(-x^2-y^2)*sin(x^2*4y^2)) + sin(-1/(x^2+y^2))
             mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );

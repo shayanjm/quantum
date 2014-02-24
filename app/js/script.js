@@ -20,7 +20,6 @@ var drateArray = [20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20
 // modArray[Math.floor((Math.random()*15)+1)] = (Math.random() * (80))+20;
 var modArray = [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0];
 
-socket.emit('getInitData');
 
 socket.on('currentData', function (data) {
     console.log('Receiving data ' + data);

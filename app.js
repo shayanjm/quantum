@@ -52,9 +52,6 @@ io.sockets.on('connection', function (socket) {
     var data = { 'kArray': kArray, 'drateArray': drateArray, 'modArray': modArray };
 
     // Push out to all clients
+    console.log('New client has connected. Sending data.');
     io.sockets.emit('currentData', data);
-    socket.on('getInitData', function () {
-        console.log('sending data');
-        socket.emit('currentData', data);
-    });
 });

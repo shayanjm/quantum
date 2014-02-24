@@ -42,16 +42,23 @@ init();
 animate();
 
 function init() {
+    var camPosition = { z: 1 };
+    var target = { z: 1900 };
+    var tween = new TWEEN.Tween(camPosition).to(target, 5000);
+    tween.delay(1000);
 
     container = document.getElementById( 'container' );
 
     //
 
     camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 1, 3500 );
-    camera.position.z = 2750;
+    camera.position.z = 1;
     controls = new THREE.OrbitControls( camera );
     controls.addEventListener( 'change', render );
 
+    tween.onUpdate(function () {
+        camera.position.z = camPosition.z;
+    });
 
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0x050505, 2000, 3500 );
@@ -235,6 +242,7 @@ function init() {
     renderer.gammaOutput = true;
 
     container.appendChild( renderer.domElement );
+    tween.start();
 
     //
     //
@@ -264,7 +272,7 @@ function animate() {
 
 function render() {
     var delta = clock.getDelta();
-
+    TWEEN.update();
     uniforms.time.value += delta * 5;
     // mesh.rotation.x = uniforms.time.value * 0.08;
     // mesh.rotation.y = uniforms.time.value* 0.07;

@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost');
+var socket = io.connect('http://qntm.herokuapp.com');
 var container;
 var geometry = new THREE.BufferGeometry();
 var clock = new THREE.Clock();

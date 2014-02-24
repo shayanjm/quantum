@@ -24,7 +24,6 @@
             uniform vec3 emissive;
             uniform vec3 specular;
             uniform float shininess;
-            uniform float time;
             #ifdef USE_COLOR
             varying vec3 vColor;
             #endif
@@ -522,8 +521,11 @@
             uniform mat4 shadowMatrix[ MAX_SHADOWS ];
             #endif
             uniform float time;
-            uniform float modifier;
+            uniform float k[16];
+            uniform float drate[16];
+            uniform float mod[16];
             void main() {
+
             #if defined( USE_MAP ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP ) || defined( USE_SPECULARMAP )
             vUv = uv * offsetRepeat.zw + offsetRepeat.xy;
             #endif
@@ -609,9 +611,68 @@
             #endif
             #if !defined( USE_SKINNING ) && ! defined( USE_MORPHTARGETS )
             vec3 newPosition = position;
+
+            // 15, increment by [1,2] on visit
+            // float k[16];
+            // k[0] = 15.0;
+            // k[1] = 15.0;
+            // k[2] = 15.0;
+            // k[3] = 15.0;
+            // k[4] = 15.0;
+            // k[5] = 15.0;
+            // k[6] = 15.0;
+            // k[7] = 15.0;
+            // k[8] = 15.0;
+            // k[9] = 15.0;
+            // k[10] = 15.0;
+            // k[11] = 15.0;
+            // k[12] = 15.0;
+            // k[13] = 15.0;
+            // k[14] = 15.0;
+            // k[15] = 15.0;
+
+            // Probably (0, 15) consistently
+            // float drate[16];
+            // drate[0] = 10.0;
+            // drate[1] = 10.0;
+            // drate[2] = 10.0;
+            // drate[3] = 10.0;
+            // drate[4] = 10.0;
+            // drate[5] = 10.0;
+            // drate[6] = 10.0;
+            // drate[7] = 10.0;
+            // drate[8] = 10.0;
+            // drate[9] = 10.0;
+            // drate[10] = 10.0;
+            // drate[11] = 10.0;
+            // drate[12] = 10.0;
+            // drate[13] = 10.0;
+            // drate[14] = 10.0;
+            // drate[15] = 10.0;
+
+            // 20-100 consistently
+            // float mod[16];
+            // mod[0] = 20.0;
+            // mod[1] = 20.0;
+            // mod[2] = 20.0;
+            // mod[3] = 20.0;
+            // mod[4] = 20.0;
+            // mod[5] = 20.0;
+            // mod[6] = 20.0;
+            // mod[7] = 20.0;
+            // mod[8] = 20.0;
+            // mod[9] = 20.0;
+            // mod[10]= 20.0;
+            // mod[11] = 20.0;
+            // mod[12] = 20.0;
+            // mod[13] = 20.0;
+            // mod[14] = 20.0;
+            // mod[15] = 20.0;
+            float rate = 8.0;
             // 3D Fourier series/transform
-            // k[1] * sin((time/(rate+drate[1])) + (position.x/mod[1])) + k[2] * sin((time/(rate+drate[2])) + (position.x/mod[2])) + k[3] * sin((time/(rate+drate[3])) + (position.x/mod[3])) + k[4] * sin((time/(rate+drate[4])) + (position.x/mod[4])) + k[5] * cos((time/(rate+drate[5])) + (position.x/mod[5])) + k[6] * cos((time/(rate+drate[6])) + (position.x/mod[6])) + k[7] * cos((time/(rate+drate[7])) + (position.x/mod[7])) + k[8] * cos((time/(rate+drate[8])) + (position.x/mod[8]))
-            newPosition.y = ( sin((time/15.0)+(position.x/115.5)*cos(time/18.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos((time/15.0)*position.y/1000.0)*106.0;
+            newPosition.y = k[0] * sin((time/(rate+drate[0])) + (position.x/mod[0])) + k[1] * sin((time/(rate+drate[1])) + (position.x/mod[1])) + k[2] * sin((time/(rate+drate[2])) + (position.x/mod[2])) + k[3] * sin((time/(rate+drate[3])) + (position.x/mod[3])) + k[4] * cos((time/(rate+drate[4])) + (position.x/mod[4])) + k[5] * cos((time/(rate+drate[5])) + (position.x/mod[5])) + k[6] * cos((time/(rate+drate[6])) + (position.x/mod[6])) + k[7] * cos((time/(rate+drate[7])) + (position.x/mod[7])) + k[8] * sin((time/(rate+drate[8])) + (position.y/mod[8])) + k[9] * sin((time/(rate+drate[9])) + (position.y/mod[9])) + k[10] * sin((time/(rate+drate[10])) + (position.y/mod[10])) + k[11] * sin((time/(rate+drate[11])) + (position.y/mod[11])) + k[12] * cos((time/(rate+drate[12])) + (position.y/mod[12])) + k[13] * cos((time/(rate+drate[13])) + (position.y/mod[13])) + k[14] * cos((time/(rate+drate[14])) + (position.y/mod[14])) + k[15] * cos((time/(rate+drate[15])) + (position.y/mod[15]));
+
+            // newPosition.y = ( sin((time/15.0)+(position.x/115.5)*cos(time/18.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos((time/15.0)*position.y/1000.0)*106.0;
             // newPosition.y = ( sin((time/8.0)+pow((position.x/125.5), sin(time/5.0))*cos(time/8.0)) + (sin((0.005*time)+(position.y/10.4)) ))*cos(time*position.y/1000.0)*106.0;
             // Normal Sine Wave: newPosition.y = ( sin((time/8.0)+(position.x/125.5)) + sin((0.005*time)+(position.y/10.4)) )*106.0;
             // sin((x^2+3*y^2)*e^(-x^2-y^2)*sin(x^2*4y^2)) + sin(-1/(x^2+y^2))
@@ -651,6 +712,7 @@
             }
 
         </script>
+        <script src="/js/socket.io.min.js"></script>
         <script src="js/script.js"></script>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

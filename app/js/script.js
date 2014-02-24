@@ -1,3 +1,4 @@
+var socket = io.connect('http://localhost');
 var container;
 var geometry = new THREE.BufferGeometry();
 var clock = new THREE.Clock();
@@ -5,11 +6,36 @@ var clock = new THREE.Clock();
 var camera, scene, renderer, controls;
 var phongShader = THREE.ShaderLib.phong;
 var uniforms = THREE.UniformsUtils.clone(phongShader.uniforms);
+
+// 15, increment by [1,2] on visit
+// kArray[Math.floor((Math.random()*15)+1)] += Math.random() * 2;
+
+var kArray = [15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1, 15.1];
+
+// Probably (0, 15)
+// drateArray[Math.floor((Math.random()*15)+1)] = Math.random() * 15;
+var drateArray = [20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0];
+
+// 20-100 consistently
+// modArray[Math.floor((Math.random()*15)+1)] = (Math.random() * (80))+20;
+var modArray = [50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0, 50.0];
+
+socket.emit('getInitData');
+
+socket.on('currentData', function (data) {
+    console.log('Receiving data ' + data);
+    uniforms.k.value = data.kArray;
+    uniforms.mod.value = data.modArray;
+    uniforms.drate.value = data.drateArray;
+    console.log(uniforms.k.value);
+});
 uniforms.diffuse.value.setHex(0xffffff);
 uniforms.ambient.value.setHex(0xffffff);
 uniforms.specular.value.setHex(0xffffff);
 uniforms.time = { type: 'f', value: 1.0 };
-uniforms.modifier = { type: 'f', value: 0.0};
+uniforms.k = { type: 'fv1', value: kArray };
+uniforms.drate = {type: 'fv1', value: drateArray };
+uniforms.mod = {type: 'fv1', value: modArray };
 uniforms.shininess.value = 250;
 
 
@@ -74,7 +100,7 @@ function init() {
 
     var color = new THREE.Color();
 
-    var n = 2000, n2 = n/2;  // triangles spread in the cube
+    var n = 1200, n2 = n/2;  // triangles spread in the cube
     var d = 4, d2 = d/2;   // individual triangle size
 
     var pA = new THREE.Vector3();
@@ -188,7 +214,7 @@ function init() {
     /*
     * Start PhongShader stuff
     */
-    var material = new THREE.ShaderMaterial({ uniforms: uniforms, attributes: {}, fragmentShader: document.getElementById( 'fragmentShader' ).textContent, vertexShader: document.getElementById( 'vertexShader' ).textContent, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
+    var material = new THREE.ShaderMaterial({ uniforms: uniforms, fragmentShader: document.getElementById( 'fragmentShader' ).textContent, vertexShader: document.getElementById( 'vertexShader' ).textContent, side: THREE.DoubleSide, lights: true, vertexColors: THREE.VertexColors});
 
     /*
     * The Phong Material
@@ -241,12 +267,6 @@ function render() {
     var delta = clock.getDelta();
 
     uniforms.time.value += delta * 5;
-    if (uniforms.modifier.value <= 100.0) {
-        uniforms.modifier.value += delta*6;
-    }
-    else {
-        uniforms.modifier.value = 0;
-    }
     // mesh.rotation.x = uniforms.time.value * 0.08;
     // mesh.rotation.y = uniforms.time.value* 0.07;
     geometry.attributes.position.needsUpdate = true;

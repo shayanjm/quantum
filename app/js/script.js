@@ -1,4 +1,4 @@
-var socket = io.connect('http://qntm.herokuapp.com');
+var socket = io.connect('http://localhost');
 var container;
 var geometry = new THREE.BufferGeometry();
 var clock = new THREE.Clock();
@@ -237,6 +237,7 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: false } );
     renderer.setClearColor( scene.fog.color, 1 );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setFaceCulling(0);
 
     renderer.gammaInput = true;
     renderer.gammaOutput = true;

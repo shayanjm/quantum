@@ -55,3 +55,10 @@ io.sockets.on('connection', function (socket) {
     console.log('New client has connected. Sending data.');
     io.sockets.emit('currentData', data);
 });
+// ping
+// prevents the app from sleeping if running on heroku
+app.get('/ping', function(req, res){console.log('ping');res.end('pong');});
+
+setInterval(function() {
+              request(config.siteurl + "/ping");
+            }, 60000);

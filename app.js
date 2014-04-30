@@ -60,5 +60,5 @@ io.sockets.on('connection', function (socket) {
 app.get('/ping', function(req, res){console.log('ping');res.end('pong');});
 
 setInterval(function() {
-              request(config.siteurl + "/ping");
+              request("http://qntm.herokuapp.com/ping");
             }, 60000);

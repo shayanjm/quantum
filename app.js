@@ -61,4 +61,5 @@ app.get('/ping', function(req, res){console.log('ping');res.end('pong');});
 
 setInterval(function() {
               request("http://qntm.herokuapp.com/ping");
+              console.log('Self-Pinged!')
             }, 60000);
